@@ -4,6 +4,7 @@ use clap::{App, Arg};
 
 mod day1;
 mod day2;
+mod day3;
 
 fn main() {
     let matches = App::new("Advent of code")
@@ -27,9 +28,13 @@ fn main() {
         .get_matches();
 
     let day = matches.value_of("day").unwrap().parse::<u32>().unwrap();
+    let now = std::time::Instant::now();
     match day {
         1 => day1::solve(),
         2 => day2::solve(),
+        3 => day3::solve(),
         _ => println!("oops! Day {} isnt implemented yet!", day),
     }
+    let elapsed = now.elapsed();
+    println!("Elapsed: {:.2?}", elapsed);
 }
