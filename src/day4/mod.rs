@@ -1,5 +1,5 @@
 pub fn solve() {
-    let input = "ckczppom";
+    let input = "ckczppom"; // day 5 doesnt require input.txt file
 
     let output = find_matching_md5(input, "00000");
     println!("part1 {output}");
