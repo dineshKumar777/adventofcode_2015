@@ -8,7 +8,7 @@ pub fn solve() {
     //part 2
     let part2_output = find_matching_md5(input, "000000");
     println!("part2 {part2_output}");
-    assert_eq!(3938038, output, "part 2 solution should be 3938038");
+    assert_eq!(3938038, part2_output, "part 2 solution should be 3938038");
 }
 
 fn find_matching_md5(input: &str, zero_trial: &str) -> usize {
