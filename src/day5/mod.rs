@@ -1,8 +1,4 @@
 pub fn solve() {
-    // should contain three vowels
-    // char appears twice in a row
-    // does not contain ab, cd, pq, xy
-
     let path = std::path::Path::new("inputs/day5.txt");
     let input = std::fs::read_to_string(path).expect("Something went wrong when reading the file");
     let mut nice_string = 0;
@@ -16,15 +12,73 @@ pub fn solve() {
         {
             nice_string += 1;
         }
-        println!(
-            "{line} - rest_ltr {} - char_twice {} - three_vowels {} - nice_count {nice_string}",
-            is_restricted_letters(line),
-            is_char_appears_twice(&input_chars),
-            is_contain_three_vowels(&input_chars)
-        );
     }
     println!("part1 {nice_string}");
     assert_eq!(258, nice_string, "part 1 solution should be 258");
+
+    // part 2 notworking
+    for line in input.lines() {
+        let input_chars: Vec<char> = line.chars().collect();
+
+        if is_contain_repeat_letter(&input_chars) && has_pairof_repeating_letters(line) {
+            nice_string += 1;
+        }
+    }
+    println!("part2 {nice_string}")
+}
+
+fn is_contain_repeat_letter(input: &Vec<char>) -> bool {
+    let mut does_repeat = false;
+    for (index, letter) in input.into_iter().enumerate() {
+        if index < input.len() - 2 {
+            if letter == &input[index + 2] {
+                does_repeat = true;
+                break;
+            }
+        }
+    }
+    println!("{input:?} doesrepeat {does_repeat}");
+    does_repeat
+}
+
+fn has_pairof_repeating_letters(input: &str) -> bool {
+    // i still don't understand how this works. in future analyze and understand
+    input
+        .chars()
+        .zip(input.chars().skip(1))
+        .zip(input.chars().skip(2))
+        .any(|((c1, _), c2)| c1 == c2)
+}
+
+fn is_pairof_two_letters(input: &Vec<char>) -> bool {
+    // this is not working
+    let two_letters = &input
+        .chunks(2)
+        .map(|chunk| chunk.iter().collect::<String>())
+        .collect::<Vec<_>>();
+
+    let mut has_pair = false;
+
+    println!("chunk {:?}", two_letters);
+
+    'outer: for (index, pair) in two_letters.into_iter().enumerate() {
+        for inner_index in index + 1..two_letters.len() {
+            let temp = &two_letters[inner_index..];
+
+            println!(
+                "inner loop - {inner_index} {pair} - {:?} - len {} - vec {:?}",
+                &temp[0],
+                &temp.len(),
+                &temp
+            );
+            if temp.len() > 0 && pair == &temp[0] {
+                has_pair = true;
+                break 'outer;
+            }
+        }
+    }
+    println!("haspair {has_pair}");
+    has_pair
 }
 
 fn is_restricted_letters(input: &str) -> bool {
